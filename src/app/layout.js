@@ -1,5 +1,6 @@
-import Login from './components/Login'
+
 import Providers from './components/Providers'
+import Navbar from './components/Navbar'
 import './globals.css'
 
 export const metadata = {
@@ -12,8 +13,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Providers>
-          <Login/>
-          {children}
+          <main className="main">
+            <Navbar />
+            <div className="main-content">{children}</div>
+          </main>
         </Providers>
       </body>
     </html>

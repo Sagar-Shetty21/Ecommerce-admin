@@ -10,3 +10,134 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
 }
+
+a {
+  text-decoration: none;
+}
+
+.main {
+  min-height: 100vh;
+  background-color: blue;
+  display: flex;
+}
+
+.main-content{
+  background-color: azure;
+  flex-grow: 1;
+  margin: 6px;
+  margin-left: 0;
+  border-radius: 12px;
+  padding: 12px
+}
+
+/* Login Page */
+
+.login-page-container{
+  position:absolute;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(251,251,251,1) 0%, rgba(91,91,165,1) 61%, rgba(33,48,52,1) 100%);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0; 
+}
+
+.login-page-container > img {
+  margin: 82px;
+}
+
+.google-signin-btn {
+  background-color: rgb(91, 53, 188);
+  font-size: 1.0em;
+  font-weight: 800;
+  color: rgb(255, 255, 255);
+  border-radius: 12px;
+  padding: 14px;
+  border: none;
+}
+.google-signin-btn:hover{
+  background-color: rgb(88, 0, 146);
+}
+
+
+/* Navigation Bar */
+
+.side-navbar{
+  padding: 8px;
+  max-width: 300px;
+  padding-right: 0;
+}
+
+.side-navbar > a > img{
+  width: 180px;
+  padding: 12px;
+}
+
+.side-navbar svg {
+  height: 28px;
+  margin-right: 6px;
+  color:rgb(255, 255, 255);
+}
+
+.side-navbar nav {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.side-navbar .nav-items{
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  padding-right: 0;
+}
+
+.side-navbar .nav-items:first-child{
+  padding-right: 48px;
+}
+
+.side-navbar span{
+  font-size: 1.1em;
+  font-weight: 900;
+  color:rgb(255, 255, 255);
+}
+
+.active-nav-item{
+  background-color: azure;
+  border-radius: 10px 0 0 10px;
+}
+
+.active-nav-item span, .active-nav-item svg{
+  color: rgb(0, 23, 67);
+}
+
+/* Home Page (or) DashBoard */
+
+.dashboard-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-section > .profile-info{
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: rgb(194, 194, 194);
+  border-radius: 22px;
+  padding: 4px;
+  padding-right: 6px;
+}
+
+.dashboard-section > .profile-info > img {
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+

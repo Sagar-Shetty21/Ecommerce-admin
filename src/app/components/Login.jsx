@@ -1,20 +1,14 @@
 "use client"
 
 import React from 'react'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 
 const Login = () => {
-    const { data: session } = useSession();
-    
-
-  if(session && session.user) {
-    console.log(session.user)
-    return (
-        <div>{session.user.name}</div>
-    )
-  }
-  return (
-    <div><button onClick={() => signIn("google")}>Sign In</button></div>
+  return(
+    <div className="login-page-container">
+      <img src="../assets/company-logo.svg" alt="company logo"/>
+      <button onClick={() => signIn("google")} className="google-signin-btn">LOG IN WITH GOOGLE</button>
+    </div>
   )
 }
 
