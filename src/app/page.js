@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <div className="dashboard-section">
           <h2>Hello, {session?.user?.name}!</h2>
-          <div className="profile-info">
+          <div className="profile-info" onClick={signOut}>
             <img src={session?.user?.image} alt="user image"/>
             {session?.user?.email}
           </div>

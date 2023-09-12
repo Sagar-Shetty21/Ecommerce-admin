@@ -59,9 +59,15 @@ a {
   border-radius: 12px;
   padding: 14px;
   border: none;
+  transition: background-color 0.3s, transform 0.2s;
 }
 .google-signin-btn:hover{
   background-color: rgb(88, 0, 146);
+  box-shadow: 0 0 0 3px rgba(52, 52, 52, 0.4);
+}
+.google-signin-btn:active{
+  background-color: rgb(27, 3, 43);
+  transform: translateY(2px);
 }
 
 
@@ -133,6 +139,16 @@ a {
   border-radius: 22px;
   padding: 4px;
   padding-right: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.dashboard-section > .profile-info:active{
+  transform: translateY(2px);
+}
+
+.dashboard-section > .profile-info{
+  box-shadow: 0 0 0 1px rgba(27, 27, 27, 0.4);
 }
 
 .dashboard-section > .profile-info > img {
