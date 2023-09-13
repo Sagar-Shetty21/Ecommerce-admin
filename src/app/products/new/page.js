@@ -8,14 +8,27 @@ const NewProduct = () => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  //const [goToProducts, setGoToProducts] = useState(false)
+  const [images, setImages] = useState([]);
   const router = useRouter();
 
   const CreateProduct = async() => {
     const data = {name, desc, price}
     const res = await axios.post('/api/products', data);
-    if (res.status === 201) {
+    if (res.status === 200) {
         await router.push('/products');
+        alert("product added successfully!")
+    }else{
+        alert("Something went wrong! Please try again.")
+    }
+  }
+
+  const uploadImage = async(e) => {
+    const files = e.target?.files;
+    if(files?.length > 0){
+      const data = new FormData();
+      Array.from(files).forEach((file) => data.append('file', file));
+      const res = await axios.post('/api/upload', data);
+      console.log(res.data)
     }
   }
 
@@ -26,13 +39,26 @@ const NewProduct = () => {
         <label>Name</label>
         <input type="text" placeholder="Product Name" value={name} onChange={(e) => setName(e.target.value)} />
 
+        <label>Images</label>
+        <div>
+            <button className="upload-img-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              <input type="file" onChange={uploadImage}/>
+            </button>
+          {!images?.length && (
+            <div className="no-img-prompt">No Images Added</div>
+          )}
+        </div>
+
         <label>Description</label>
         <textarea type="text" placeholder="Product Description" value={desc} onChange={(e) => setDesc(e.target.value)} />
 
         <label>Price</label>
         <input type="number" placeholder="Product Price" value={price} onChange={(e) => setPrice(e.target.value)} />
 
-        <button onClick={CreateProduct}>Save</button>
+        <button onClick={CreateProduct} className="create-product-btn">Save</button>
     </div>
   )
 }

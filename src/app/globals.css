@@ -169,6 +169,12 @@ a {
 
 /* Products Page */
 
+.product-page-container{
+  padding: 6px;
+  width: 100%;
+  height: 100%;
+}
+
 .create-new-product-btn {
   padding: 6px 8px;
   background-color: rgb(43, 53, 192);
@@ -176,8 +182,58 @@ a {
   font-weight: 800;
   border-radius: 6px;
   color: rgb(255, 255, 255);
+  margin: 8px;
 }
 
+.product-page-container table{
+  background-color: rgb(233, 233, 233);
+  border-collapse: collapse;
+  margin: 20px 12px;
+  width: calc(100% - 24px);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.product-page-container table tr{
+  border: 2px solid rgb(203, 203, 203);
+}
+
+.product-page-container table tr:nth-child(even) {background-color: #c1c1c1;}
+
+.product-page-container table th,.product-page-container table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.product-page-container table th{
+  background-color: #5690e8;
+  color: rgb(222, 222, 222);
+}
+
+.full-width-column {
+  width: 100%;
+}
+
+.product-page-container .product-edit-btn{
+  padding: 6px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(20, 20, 141);
+  color: white;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+.product-page-container .product-delete-btn{
+  padding: 6px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(247, 32, 32);
+  color: white;
+  border-radius: 4px;
+  margin-right: 6px;
+
+}
 
 /* New Product Page */
 
@@ -213,7 +269,7 @@ a {
   border: 3px solid blue;
 }
 
-.new-product-form-container button {
+.new-product-form-container .create-product-btn {
   padding: 4px 10px;
   margin: 6px;
   background-color: rgb(24, 24, 157);
@@ -221,4 +277,84 @@ a {
   font-size: 19px;
   border-radius: 4px;
   font-weight: 600;
+}
+
+.new-product-form-container .upload-img-btn {
+  height: 120px;
+  width: 120px;
+  border-radius: 6px;
+  border: 3px solid grey;
+  margin: 4px;
+  padding: 14px;
+  opacity: 0.4;
+  background-color: #c1c1c1;
+  position: relative;
+}
+
+.new-product-form-container button{
+  padding: 4px 10px;
+  margin: 6px;
+  background-color: rgb(24, 24, 157);
+  color: white;
+  font-size: 19px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.new-product-form-container .upload-img-btn input{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.no-img-prompt{
+  margin: 6px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.new-product-form-container .upload-img-btn:hover{
+  opacity: 0.8;
+}
+
+.new-product-form-container .upload-img-btn:active{
+  opacity: 1;
+}
+
+/* Delete Product */
+
+.delete-confirmation-prompt-container{
+  width: 100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.delete-confirmation-prompt {
+  margin-top: 14px;
+  font-size: 28px;
+  font-weight: 800;
+  color: rgb(255, 119, 0)
+}
+
+.delete-product-btn {
+  background-color: rgb(255, 64, 64) !important;
+  height: 42px !important;
+  width: 200px !important;
+  border-radius: 6px;
+  margin: 6px;
+}
+
+.cancel-delete-product-btn{
+  background-color: rgb(249, 244, 103) !important;
+  color: black !important;
+  height: 42px !important;
+  width: 200px !important;
+  margin: 6px;
+  border-radius: 6px;
 }
