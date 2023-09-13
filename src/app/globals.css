@@ -17,7 +17,7 @@ a {
 
 .main {
   min-height: 100vh;
-  background-color: blue;
+  background-color: rgb(26, 26, 143);
   display: flex;
 }
 
@@ -103,10 +103,6 @@ a {
   padding-right: 0;
 }
 
-.side-navbar .nav-items:first-child{
-  padding-right: 48px;
-}
-
 .side-navbar span{
   font-size: 1.1em;
   font-weight: 900;
@@ -120,6 +116,17 @@ a {
 
 .active-nav-item span, .active-nav-item svg{
   color: rgb(0, 23, 67);
+}
+
+.company-logo > img {
+  padding-right: 6px;
+  width: 40px;
+}
+
+.company-logo > svg {
+  margin: 0;
+  color: rgb(72, 89, 218);
+  height: 36px;
 }
 
 /* Home Page (or) DashBoard */
@@ -157,3 +164,61 @@ a {
   margin-right: 4px;
 }
 
+
+
+
+/* Products Page */
+
+.create-new-product-btn {
+  padding: 6px 8px;
+  background-color: rgb(43, 53, 192);
+  font-size: 19px;
+  font-weight: 800;
+  border-radius: 6px;
+  color: rgb(255, 255, 255);
+}
+
+
+/* New Product Page */
+
+.new-product-form-container {
+  width: 100%;
+  padding: 14px;
+}
+
+.new-product-form-container .page-title {
+  font-family: 'Poppins', sans-serif !important ;
+  padding-bottom: 10px;
+  color: rgb(9, 9, 103);
+}
+
+.new-product-form-container input,.new-product-form-container textarea {
+  font-size: 16px;
+  padding: 6px;
+  border: 3px solid rgba(85, 85, 85, 0.445);
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 16px;
+  resize: none;
+}
+
+.new-product-form-container label{
+  font-size: 18px;
+  padding: 2px;
+  font-weight: 800;
+  color: rgb(24, 24, 130);
+}
+
+.new-product-form-container input:focus, .new-product-form-container textarea:focus{
+  border: 3px solid blue;
+}
+
+.new-product-form-container button {
+  padding: 4px 10px;
+  margin: 6px;
+  background-color: rgb(24, 24, 157);
+  color: white;
+  font-size: 19px;
+  border-radius: 4px;
+  font-weight: 600;
+}

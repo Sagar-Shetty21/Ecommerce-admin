@@ -1,8 +1,9 @@
+import Link from 'next/link'
 import React from 'react'
 
 const Product = () => {
   return (
-    <div>Product</div>
+    <Link href={'products/new'} className="create-new-product-btn">Add a product</Link>
   )
 }
 
