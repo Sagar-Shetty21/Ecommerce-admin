@@ -8,11 +8,11 @@ const NewProduct = () => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
-  const [images, setImages] = useState([]);
+  const [imagesLink, setImagesLink] = useState([]);
   const router = useRouter();
 
   const CreateProduct = async() => {
-    const data = {name, desc, price}
+    const data = {name, desc, price, images: imagesLink}
     const res = await axios.post('/api/products', data);
     if (res.status === 200) {
         await router.push('/products');
@@ -28,10 +28,11 @@ const NewProduct = () => {
       const data = new FormData();
       Array.from(files).forEach((file) => data.append('file', file));
       const res = await axios.post('/api/upload', data);
-      console.log(res.data)
+      const imgLink = res.data.link;
+      setImagesLink((prev) => [...prev, imgLink]);
     }
   }
-
+  
   return (
     <div className="new-product-form-container">
         <h1 className="page-title">New Product</h1>
@@ -40,17 +41,25 @@ const NewProduct = () => {
         <input type="text" placeholder="Product Name" value={name} onChange={(e) => setName(e.target.value)} />
 
         <label>Images</label>
-        <div>
+        <div className="image-upload-container">
+            {imagesLink.map((img) => {
+              return(
+                <div key={img} className="uploaded-img-box">
+                  <img src={img} alt="uploaded image"/>
+                </div>
+              )
+            })}
             <button className="upload-img-btn">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
               </svg>
               <input type="file" onChange={uploadImage}/>
             </button>
-          {!images?.length && (
-            <div className="no-img-prompt">No Images Added</div>
-          )}
         </div>
+        
+        {!imagesLink?.length && (
+          <div className="no-img-prompt">No Images Added</div>
+        )}
 
         <label>Description</label>
         <textarea type="text" placeholder="Product Description" value={desc} onChange={(e) => setDesc(e.target.value)} />
