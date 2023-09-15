@@ -9,6 +9,8 @@ const DeleteProduct = ({ params }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
+  const [categories, setCategories] = useState([])
+  const [category, setCategory] = useState("")
   const [imagesLink, setImagesLink] = useState([]);
 
   useEffect(() => {
@@ -17,6 +19,10 @@ const DeleteProduct = ({ params }) => {
         setDesc(response.data.description);
         setPrice(response.data.price);
         setImagesLink(response.data.images);
+        setCategory(response.data.category);
+    })
+    axios.get('/api/categories').then(response => {
+      setCategories(response.data)
     })
   },[productId])
   
@@ -42,6 +48,14 @@ const DeleteProduct = ({ params }) => {
 
         <label>Name</label>
         <input type="text" placeholder="Product Name" value={name} disabled/>
+
+        <label>Category</label>
+        <select value={category} onChange={(e) => setCategory(e.target.value)} disabled>
+          <option value="">Uncategorized</option>
+          {categories.length > 0 && categories.map(c => {
+            return <option key={c._id} value={c._id}>{c.name}</option>
+          })}
+        </select>
 
         <label>Images</label>
         <div className="image-upload-container">

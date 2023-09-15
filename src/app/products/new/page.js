@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import { ReactSortable } from 'react-sortablejs';
@@ -11,12 +11,20 @@ const NewProduct = () => {
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
   const [imagesLink, setImagesLink] = useState([]);
+  const [category, setCategory] = useState("")
   const [isUploading, setIsUploading] = useState(false);
+  const [categories, setCategories] = useState([])
 
   const router = useRouter();
 
+  useEffect(() => {
+    axios.get('/api/categories').then(response => {
+      setCategories(response.data)
+    })
+  },[])
+
   const CreateProduct = async() => {
-    const data = {name, desc, price, images: imagesLink}
+    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category}
     const res = await axios.post('/api/products', data);
     if (res.status === 200) {
         await router.push('/products');
@@ -49,6 +57,14 @@ const NewProduct = () => {
 
         <label>Name</label>
         <input type="text" placeholder="Product Name" value={name} onChange={(e) => setName(e.target.value)} />
+
+        <label>Category</label>
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Uncategorized</option>
+          {categories.length > 0 && categories.map(c => {
+            return <option key={c._id} value={c._id}>{c.name}</option>
+          })}
+        </select>
 
         <label>Images</label>
         <div className="image-upload-container">

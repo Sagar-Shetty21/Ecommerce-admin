@@ -258,6 +258,16 @@ a {
   resize: none;
 }
 
+.new-product-form-container select{
+  font-size: 16px;
+  padding: 6px;
+  border: 3px solid rgba(85, 85, 85, 0.445);
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
 .new-product-form-container label{
   font-size: 18px;
   padding: 2px;
@@ -429,7 +439,18 @@ a {
   border: 3px solid rgba(85, 85, 85, 0.445);
   border-radius: 5px;
   flex-grow: 1;
-  resize: none;
+}
+
+.categories-page-container select{
+  font-size: 16px;
+  padding: 6px;
+  border: 3px solid rgba(85, 85, 85, 0.445);
+  border-radius: 5px;
+  flex-grow: 1;
+}
+
+.categories-page-container select option{
+  font-weight: 600;
 }
 
 .categories-page-container button{
@@ -461,6 +482,7 @@ a {
 .categories-page-container table th,.categories-page-container table td {
   padding: 10px;
   text-align: left;
+  border: 1px solid rgb(189, 189, 189);
 }
 
 .categories-page-container table th{
@@ -468,3 +490,16 @@ a {
   color: rgb(222, 222, 222);
 }
 
+.categories-btn-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categories-btn-container .categories-edit-btn{
+  background-color: rgb(11, 74, 170);
+}
+
+.categories-btn-container .categories-delete-btn{
+  background-color: rgb(255, 38, 26);
+}
