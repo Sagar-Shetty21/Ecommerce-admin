@@ -9,12 +9,14 @@ const DeleteProduct = ({ params }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
+  const [imagesLink, setImagesLink] = useState([]);
 
   useEffect(() => {
     axios.get('/api/products?id='+productId).then(response => {
         setName(response.data.title);
         setDesc(response.data.description);
         setPrice(response.data.price);
+        setImagesLink(response.data.images);
     })
   },[productId])
   
@@ -40,6 +42,21 @@ const DeleteProduct = ({ params }) => {
 
         <label>Name</label>
         <input type="text" placeholder="Product Name" value={name} disabled/>
+
+        <label>Images</label>
+        <div className="image-upload-container">
+            {imagesLink.map((img) => {
+              return(
+                <div key={img} className="uploaded-img-box">
+                  <img src={img} alt="uploaded image"/>
+                </div>
+              )
+            })}
+        </div>
+
+        {!imagesLink?.length && (
+          <div className="no-img-prompt">No Images Added</div>
+        )}
 
         <label>Description</label>
         <textarea type="text" placeholder="Product Description" value={desc} disabled/>

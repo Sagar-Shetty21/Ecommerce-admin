@@ -3,12 +3,16 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
+import { ReactSortable } from 'react-sortablejs';
+
 
 const NewProduct = () => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
   const [imagesLink, setImagesLink] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+
   const router = useRouter();
 
   const CreateProduct = async() => {
@@ -23,6 +27,7 @@ const NewProduct = () => {
   }
 
   const uploadImage = async(e) => {
+    setIsUploading(true)
     const files = e.target?.files;
     if(files?.length > 0){
       const data = new FormData();
@@ -31,6 +36,11 @@ const NewProduct = () => {
       const imgLink = res.data.link;
       setImagesLink((prev) => [...prev, imgLink]);
     }
+    setIsUploading(false)
+  }
+
+  const updateImagesOrder = (images) => {
+    setImagesLink(images);
   }
   
   return (
@@ -42,13 +52,22 @@ const NewProduct = () => {
 
         <label>Images</label>
         <div className="image-upload-container">
-            {imagesLink.map((img) => {
-              return(
-                <div key={img} className="uploaded-img-box">
-                  <img src={img} alt="uploaded image"/>
-                </div>
-              )
-            })}
+            <ReactSortable list={imagesLink} setList={updateImagesOrder} className="selectedImagesSorter">
+              <>
+                {imagesLink.map((img) => {
+                  return(
+                    <div key={img} className="uploaded-img-box">
+                      <img src={img} alt="uploaded image"/>
+                    </div>
+                  )
+                })}
+                {isUploading && 
+                    <div className="uploaded-img-box-loader">
+                        <img src="/assets/spinner.svg"/>
+                    </div>
+                }
+              </>
+            </ReactSortable>
             <button className="upload-img-btn">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
@@ -56,7 +75,7 @@ const NewProduct = () => {
               <input type="file" onChange={uploadImage}/>
             </button>
         </div>
-        
+
         {!imagesLink?.length && (
           <div className="no-img-prompt">No Images Added</div>
         )}

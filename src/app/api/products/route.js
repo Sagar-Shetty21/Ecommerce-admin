@@ -5,9 +5,9 @@ import {mongooseConnect} from '../../../../lib/mongoose'
 
 export async function POST(request) {
     await mongooseConnect();
-    const {name, desc, price} = await request.json()
+    const {name, desc, price, images} = await request.json()
     const productDoc = await Product.create({
-        title: name, description: desc, price: price,
+        title: name, description: desc, price: price, images: images
     })
     return NextResponse.json(productDoc)
 }
@@ -23,9 +23,9 @@ export async function GET(request) {
 
 export async function PUT(request) {
     await mongooseConnect();
-    const {name, desc, price, productId} = await request.json()
+    const {name, desc, price, productId, images} = await request.json()
     const productDoc = await Product.updateOne({_id: productId},{
-        title: name, description: desc, price: price,
+        title: name, description: desc, price: price, images: images
     })
     return NextResponse.json(productDoc)
 }

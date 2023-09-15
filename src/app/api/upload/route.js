@@ -9,8 +9,8 @@ export async function POST(request){
     const file = formData.get("file");
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const relativeUploadDir = `/uploads`;
-    const uploadDir = join(process.cwd(), "public", relativeUploadDir);
+    //const relativeUploadDir = `/uploads`;
+    //const uploadDir = join(process.cwd(), "public", relativeUploadDir);
 
     try {
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
@@ -28,7 +28,7 @@ export async function POST(request){
                 secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY
             }
         })
-        client.send(new PutObjectCommand({
+        await client.send(new PutObjectCommand({
             Bucket: 'svr-color-lab',
             Key: filename,
             Body: buffer,
