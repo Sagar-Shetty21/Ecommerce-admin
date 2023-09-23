@@ -4,9 +4,12 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import { ReactSortable } from 'react-sortablejs';
+import { useSession } from 'next-auth/react'
 
 
 const NewProduct = () => {
+  useSession({required: true});
+  
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
@@ -16,7 +19,7 @@ const NewProduct = () => {
   const [categories, setCategories] = useState([])
 
   const router = useRouter();
-
+  
   useEffect(() => {
     axios.get('/api/categories').then(response => {
       setCategories(response.data)
@@ -24,7 +27,7 @@ const NewProduct = () => {
   },[])
 
   const CreateProduct = async() => {
-    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category}
+    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category, properties}
     const res = await axios.post('/api/products', data);
     if (res.status === 200) {
         await router.push('/products');
@@ -50,6 +53,19 @@ const NewProduct = () => {
   const updateImagesOrder = (images) => {
     setImagesLink(images);
   }
+
+  const properties = {size:[], frame:[]}
+  if (categories.length > 0 && category) {
+    let selectedCategoryInfo = categories.find(({_id}) => _id === category );
+    properties.size.push(...selectedCategoryInfo.properties?.size || [])
+    properties.frame.push(...selectedCategoryInfo.properties?.frame || [])
+    while(selectedCategoryInfo?.parent?._id){
+      const parentCategoryInfo = categories.find(({_id}) => _id === selectedCategoryInfo?.parent?._id );
+      properties.size.push(...parentCategoryInfo.properties?.size || [])
+      properties.frame.push(...parentCategoryInfo.properties?.frame || [])
+      selectedCategoryInfo = parentCategoryInfo;
+    }
+  }
   
   return (
     <div className="new-product-form-container">
@@ -65,6 +81,42 @@ const NewProduct = () => {
             return <option key={c._id} value={c._id}>{c.name}</option>
           })}
         </select>
+
+        {category ? (
+          properties.size.length > 0 && properties.frame.length > 0 ? (
+            <div className="selected-category-properties-container">
+              <div className="selected-category-property-box">
+                <div className="property-title">Size properties</div>
+                  <div className="property-varients-container">
+                    {properties.size.map((item) => {
+                      return (
+                        <div className="size-property-varient-card">
+                          <div>{item.width} x {item.height}</div>
+                          <div className="property-price">₹{item.price}</div>
+                        </div>
+                      ) 
+                    })}
+                  </div>
+              </div>
+              <div className="selected-category-property-box">
+                <div className="property-title">Frame Design properties</div>
+                <div className="property-varients-container">
+                  {properties.frame.map((item) => {
+                    return (
+                      <div className="frame-property-varient-card">
+                        <div className="frame-design-img-container"><img src={item.image} alt="frame design" /></div>
+                        <div>{item.name}</div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+              
+            </div>
+          ) : (
+            <div className="empty-properties-container-msg">No properties in the selected category</div>
+          )
+        ) : null}
 
         <label>Images</label>
         <div className="image-upload-container">
@@ -99,7 +151,7 @@ const NewProduct = () => {
         <label>Description</label>
         <textarea type="text" placeholder="Product Description" value={desc} onChange={(e) => setDesc(e.target.value)} />
 
-        <label>Price</label>
+        <label>Base price</label>
         <input type="number" placeholder="Product Price" value={price} onChange={(e) => setPrice(e.target.value)} />
 
         <button onClick={CreateProduct} className="create-product-btn">Save</button>

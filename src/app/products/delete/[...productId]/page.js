@@ -3,8 +3,11 @@
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 const DeleteProduct = ({ params }) => {
+  useSession({required: true});
+  
   const {productId} = params;
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -44,7 +47,7 @@ const DeleteProduct = ({ params }) => {
 
   return (
     <div className="new-product-form-container">
-        <h1 className="page-title">Edit Product</h1>
+        <h1 className="page-title">Delete Product</h1>
 
         <label>Name</label>
         <input type="text" placeholder="Product Name" value={name} disabled/>

@@ -3,12 +3,27 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { withSwal } from 'react-sweetalert2';
+import Size from '../components/categoryProperties/Size'
+import FrameDesign from '../components/categoryProperties/FrameDesign'
+import Dimensions from '../components/categoryProperties/Dimensions'
+import Colors from '../components/categoryProperties/Colors'
+import { useSession } from 'next-auth/react'
 
 const Categories = ({swal}) => {
+  useSession({required: true});
+
   const [isEditing, setIsEditing] = useState(null)
   const [categoryName, setCategoryName] = useState("");
   const [parentCategory, setParentCategory] = useState("");
   const [allCategories, setAllCategories] = useState([]);
+  const [dimensionActive, setDimensionActive] = useState(false);
+  const [dimensionVarients, setDimensionVarients] = useState([]);
+  const [frameActive, setFrameActive] = useState(false);
+  const [frameVarients, setFrameVarients] = useState([]);
+  const [colorActive, setColorActive] = useState(false);
+  const [colorVarients, setColorVarients] = useState([]); 
+  const [sizeActive, setSizeActive] = useState(false);
+  const [sizeVarients, setSizeVarients] = useState([]);
 
   useEffect(() => {
     getAllCategories()
@@ -21,16 +36,23 @@ const Categories = ({swal}) => {
   }
 
   const saveCategory = async() => {
+    const properties = {dimensions: dimensionVarients, frame: frameVarients}
     if(isEditing){
-        await axios.put('/api/categories', {name: categoryName, parent: parentCategory, id: isEditing._id})
+        await axios.put('/api/categories', {name: categoryName, parent: parentCategory === '' ? null : parentCategory, properties, id: isEditing._id})
         alert("Category Updated successfully!")
         setIsEditing(null)
     }else{
-        await axios.post('/api/categories', {name: categoryName, parent: parentCategory})
+        await axios.post('/api/categories', {name: categoryName, parent: parentCategory === '' ? null : parentCategory, properties})
         alert("Category created successfully!")
     }
     setCategoryName("")
     setParentCategory("")
+    setDimensionActive(false)
+    setFrameActive(false)
+    setSizeActive(false)
+    setDimensionVarients([])
+    setFrameVarients([])
+    setSizeVarients([])
     getAllCategories()
   }
 
@@ -38,6 +60,12 @@ const Categories = ({swal}) => {
     setIsEditing(category);
     setCategoryName(category.name)
     category?.parent?._id?setParentCategory(category.parent._id):setParentCategory("")
+    category.properties?.dimensions?.length > 0 && setDimensionActive(true)
+    category.properties?.frame?.length > 0 && setFrameActive(true)
+    category.properties?.size?.length > 0 && setSizeActive(true)
+    setDimensionVarients(category.properties?.dimensions || [])
+    setFrameVarients(category.properties?.frame || [])
+    setSizeVarients(category.properties?.size || [])
   }
 
   const handleDelete = (category) => {
@@ -58,6 +86,16 @@ const Categories = ({swal}) => {
     })
   }
 
+  const cancelEditing = () => {
+    setCategoryName("")
+    setParentCategory("")
+    setIsEditing(false)
+    setDimensionActive(false)
+    setFrameActive(false)
+    setDimensionVarients([])
+    setFrameVarients([])
+  }
+  
   return (
     <div className="categories-page-container">
         <h1 className="page-title">Categories</h1>
@@ -73,32 +111,49 @@ const Categories = ({swal}) => {
                     })
                 }
             </select>
-            <button onClick={saveCategory}>{isEditing ? "Save changes" : "Create"}</button>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th >Category</th>
-                    <th>Parent Category</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {allCategories.map(category => (
-                    <tr key={category._id}>
-                        <td>{category.name}</td>
-                        <td>{category?.parent?.name}</td>
-                        <td>
-                            <div className="categories-btn-container">
-                                <button className="categories-edit-btn" onClick={() => handleEdit(category)}>Edit</button>
-                                <button className="categories-delete-btn" onClick={() => handleDelete(category)}>Delete</button>
-                            </div>
-                        </td>
+        <label>Properties</label>
+        <div className="category-properties-container">
+            <button className="add-property-btn" onClick={() => setDimensionActive(true)}>Add dimensions</button>
+            <button className="add-property-btn" onClick={() => setFrameActive(true)}>Add frame designs</button>
+            <button className="add-property-btn" onClick={() => setSizeActive(true)}>Add Sizes</button>
+            <button className="add-property-btn" onClick={() => setColorActive(true)}>Add Colors</button>
+        </div>
+        {dimensionActive && <Dimensions setInactive={setDimensionActive} setVarients={setDimensionVarients} varients={dimensionVarients}/>}
+        {frameActive && <FrameDesign setInactive={setFrameActive} setVarients={setFrameVarients} varients={frameVarients}/>}
+        {sizeActive && <Size setInactive={setSizeActive} setVarients={setSizeVarients} varients={sizeVarients}/>}
+        {colorActive && <Colors setInactive={setColorActive} setVarients={setColorVarients} varients={colorVarients}/>}
+
+
+        <button className="categorycreate-save-btn" onClick={saveCategory}>{isEditing ? "Save changes" : "Create"}</button>
+        {isEditing && <button className="categoryedit-cancel-btn" onClick={cancelEditing}>Cancel</button>}
+
+        {!isEditing &&
+            <table>
+                <thead>
+                    <tr>
+                        <th >Category</th>
+                        <th>Parent Category</th>
+                        <th></th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {allCategories.map(category => (
+                        <tr key={category._id}>
+                            <td>{category.name}</td>
+                            <td>{category?.parent?.name}</td>
+                            <td>
+                                <div className="categories-btn-container">
+                                    <button className="categories-edit-btn" onClick={() => handleEdit(category)}>Edit</button>
+                                    <button className="categories-delete-btn" onClick={() => handleDelete(category)}>Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        }
     </div>
   )
 }

@@ -3,8 +3,11 @@
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 const Product = () => {
+  useSession({required: true});
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

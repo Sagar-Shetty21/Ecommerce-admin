@@ -1,10 +1,13 @@
 import mime from "mime";
-import { join } from "path";
-import { stat, mkdir, writeFile } from "fs/promises";
 import { NextResponse } from 'next/server'
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import {mongooseConnect} from '../../../../lib/mongoose'
+import { isAdminRequest } from '../auth/[...nextauth]/route';
 
 export async function POST(request){
+    await mongooseConnect();
+    await isAdminRequest();
+    
     const formData = await request.formData();
     const file = formData.get("file");
 

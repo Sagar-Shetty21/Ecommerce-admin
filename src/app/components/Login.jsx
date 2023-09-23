@@ -2,8 +2,18 @@
 
 import React from 'react'
 import { signIn } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+
 
 const Login = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  if(session){
+    router.push('/')
+  }
+
   return(
     <div className="login-page-container">
       <img src="../assets/company-logo.svg" alt="company logo"/>
