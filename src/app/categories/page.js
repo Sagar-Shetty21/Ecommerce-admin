@@ -36,7 +36,7 @@ const Categories = ({swal}) => {
   }
 
   const saveCategory = async() => {
-    const properties = {dimensions: dimensionVarients, frame: frameVarients}
+    const properties = {dimensions: dimensionVarients, frame: frameVarients, size: sizeVarients, color: colorVarients}
     if(isEditing){
         await axios.put('/api/categories', {name: categoryName, parent: parentCategory === '' ? null : parentCategory, properties, id: isEditing._id})
         alert("Category Updated successfully!")
@@ -50,9 +50,11 @@ const Categories = ({swal}) => {
     setDimensionActive(false)
     setFrameActive(false)
     setSizeActive(false)
+    setColorActive(false)
     setDimensionVarients([])
     setFrameVarients([])
     setSizeVarients([])
+    setColorVarients([])
     getAllCategories()
   }
 
@@ -63,9 +65,11 @@ const Categories = ({swal}) => {
     category.properties?.dimensions?.length > 0 && setDimensionActive(true)
     category.properties?.frame?.length > 0 && setFrameActive(true)
     category.properties?.size?.length > 0 && setSizeActive(true)
+    category.properties?.color?.length > 0 && setColorActive(true)
     setDimensionVarients(category.properties?.dimensions || [])
     setFrameVarients(category.properties?.frame || [])
     setSizeVarients(category.properties?.size || [])
+    setColorVarients(category.properties?.color || [])
   }
 
   const handleDelete = (category) => {
@@ -92,8 +96,12 @@ const Categories = ({swal}) => {
     setIsEditing(false)
     setDimensionActive(false)
     setFrameActive(false)
+    setColorActive(false)
+    setSizeActive(false)
     setDimensionVarients([])
     setFrameVarients([])
+    setSizeVarients([])
+    setColorVarients([])
   }
   
   return (

@@ -45,24 +45,36 @@ const NewProduct = () => {
       Array.from(files).forEach((file) => data.append('file', file));
       const res = await axios.post('/api/upload', data);
       const imgLink = res.data.link;
+      console.log(res.data)
       setImagesLink((prev) => [...prev, imgLink]);
     }
     setIsUploading(false)
+  }
+
+  const removeImage = async(img) => {
+    const newImagesLink = imagesLink.filter(link => link !== img)
+    setImagesLink(newImagesLink);
+    const res = await axios.delete(`/api/upload?link=${img}`);
+    console.log(res);
   }
 
   const updateImagesOrder = (images) => {
     setImagesLink(images);
   }
 
-  const properties = {size:[], frame:[]}
+  const properties = {dimensions:[], frame:[], size:[], color:[]}
   if (categories.length > 0 && category) {
     let selectedCategoryInfo = categories.find(({_id}) => _id === category );
-    properties.size.push(...selectedCategoryInfo.properties?.size || [])
+    properties.dimensions.push(...selectedCategoryInfo.properties?.dimensions || [])
     properties.frame.push(...selectedCategoryInfo.properties?.frame || [])
+    properties.size.push(...selectedCategoryInfo.properties?.size || [])
+    properties.color.push(...selectedCategoryInfo.properties?.color || [])
     while(selectedCategoryInfo?.parent?._id){
       const parentCategoryInfo = categories.find(({_id}) => _id === selectedCategoryInfo?.parent?._id );
-      properties.size.push(...parentCategoryInfo.properties?.size || [])
+      properties.dimensions.push(...parentCategoryInfo.properties?.dimensions || [])
       properties.frame.push(...parentCategoryInfo.properties?.frame || [])
+      properties.size.push(...parentCategoryInfo.properties?.size || [])
+      properties.color.push(...parentCategoryInfo.properties?.color || [])
       selectedCategoryInfo = parentCategoryInfo;
     }
   }
@@ -83,12 +95,13 @@ const NewProduct = () => {
         </select>
 
         {category ? (
-          properties.size.length > 0 && properties.frame.length > 0 ? (
+          properties.dimensions.length > 0 || properties.frame.length > 0 || properties.size.length > 0 || properties.color.length > 0 ? (
             <div className="selected-category-properties-container">
-              <div className="selected-category-property-box">
-                <div className="property-title">Size properties</div>
+              {properties.dimensions.length > 0 &&
+                <div className="selected-category-property-box">
+                  <div className="property-title">Dimension properties</div>
                   <div className="property-varients-container">
-                    {properties.size.map((item) => {
+                    {properties.dimensions.map((item) => {
                       return (
                         <div className="size-property-varient-card">
                           <div>{item.width} x {item.height}</div>
@@ -97,21 +110,53 @@ const NewProduct = () => {
                       ) 
                     })}
                   </div>
-              </div>
-              <div className="selected-category-property-box">
-                <div className="property-title">Frame Design properties</div>
-                <div className="property-varients-container">
-                  {properties.frame.map((item) => {
-                    return (
-                      <div className="frame-property-varient-card">
-                        <div className="frame-design-img-container"><img src={item.image} alt="frame design" /></div>
-                        <div>{item.name}</div>
-                      </div>
-                    )
-                  })}
                 </div>
-              </div>
-              
+              }
+              {properties.frame.length > 0 && 
+                <div className="selected-category-property-box">
+                  <div className="property-title">Frame Design properties</div>
+                  <div className="property-varients-container">
+                    {properties.frame.map((item) => {
+                      return (
+                        <div className="frame-property-varient-card">
+                          <div className="frame-design-img-container"><img src={item.image} alt="frame design" /></div>
+                          <div>{item.name}</div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              }
+              {properties.size.length > 0 && 
+                <div className="selected-category-property-box">
+                  <div className="property-title">Size properties</div>
+                  <div className="property-varients-container">
+                    {properties.size.map((item) => {
+                      return (
+                        <div className="size-property-varient-card">
+                          <div>{item.sizeInfo}</div>
+                          <div className="property-price">₹{item.price}</div>
+                        </div>
+                      ) 
+                    })}
+                  </div>
+                </div>
+              }
+              {properties.color.length > 0 && 
+                <div className="selected-category-property-box">
+                  <div className="property-title">Frame Design properties</div>
+                  <div className="property-varients-container">
+                    {properties.color.map((item) => {
+                      return (
+                        <div className="color-property-varient-card">
+                          <div className="color-demo-container" style={{backgroundColor: `${item.color}`}}></div>
+                          <div>{item.name}</div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              }
             </div>
           ) : (
             <div className="empty-properties-container-msg">No properties in the selected category</div>
@@ -126,6 +171,9 @@ const NewProduct = () => {
                   return(
                     <div key={img} className="uploaded-img-box">
                       <img src={img} alt="uploaded image"/>
+                      <svg onClick={() => removeImage(img)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                      </svg>
                     </div>
                   )
                 })}

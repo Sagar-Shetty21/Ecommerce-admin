@@ -344,9 +344,23 @@ a {
   margin: 4px;
   border-radius: 6px;
   overflow: hidden;
+  position: relative;
 }
 .uploaded-img-box img{
   max-height: 100%;
+}
+.uploaded-img-box svg{
+  height: 24px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: grey;
+}
+.uploaded-img-box svg:hover{
+  color: rgb(228, 112, 112);
+}
+.uploaded-img-box svg:active{
+  color: rgb(225, 45, 45);
 }
 
 .selectedImagesSorter{
@@ -833,6 +847,20 @@ a {
   justify-content: center;
   font-weight: 600;
   margin-bottom: 12px;
+}
+.color-property-varient-card{
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin: 4px;
+  padding: 4px;
+  border-radius: 4px;
+  border: 2px solid rgb(159, 159, 255);
+}
+.color-demo-container{
+  width: 25px;
+  height: 25px;
+  margin: 2px;
 }
 
 
