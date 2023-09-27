@@ -1,13 +1,15 @@
 'use client'
 
-import React from 'react'
 import { useSession } from 'next-auth/react'
+import FeaturedProductSelector from '../components/settingsOptions/FeaturedProductSelector'
 
 const Settings = () => {
   useSession({required: true});
   
   return (
-    <div>Settings</div>
+    <div>
+      <FeaturedProductSelector />
+    </div>
   )
 }
 

@@ -45,7 +45,6 @@ const NewProduct = () => {
       Array.from(files).forEach((file) => data.append('file', file));
       const res = await axios.post('/api/upload', data);
       const imgLink = res.data.link;
-      console.log(res.data)
       setImagesLink((prev) => [...prev, imgLink]);
     }
     setIsUploading(false)
@@ -54,8 +53,7 @@ const NewProduct = () => {
   const removeImage = async(img) => {
     const newImagesLink = imagesLink.filter(link => link !== img)
     setImagesLink(newImagesLink);
-    const res = await axios.delete(`/api/upload?link=${img}`);
-    console.log(res);
+    await axios.delete(`/api/upload?link=${img}`);
   }
 
   const updateImagesOrder = (images) => {
