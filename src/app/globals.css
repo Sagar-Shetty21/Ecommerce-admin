@@ -978,15 +978,37 @@ a {
   width: 100%;
   display: flex;
   flex-direction: column;
+  text-align: center;
   gap: 10px;
   background-color: #c1c1c1;
   padding: 20px;
+  border-radius: 4px;
+}
+
+.featured-product-selector-container h2{
+  font-size: 28px;
+  color: #161689; 
 }
 
 .featured-product-selector-container .featured-product-selector{
   margin: 15px 20%;
   height: 45px;
   border-radius: 6px;
+  border: none;
+  outline: none;
   font-size: 16px;
   font-weight: 600;
+}
+
+.featured-product-selector-container button {
+  margin: 15px 20%;
+  border-radius: 6px;
+  background-color:rgb(24, 21, 153);
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 10px 40px;
+}
+.featured-product-selector-container button:active {
+  background-color:rgb(7, 6, 51);
 }
