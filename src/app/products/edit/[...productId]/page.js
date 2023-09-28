@@ -102,9 +102,9 @@ const EditProduct = ({ params }) => {
               <div className="selected-category-property-box">
                 <div className="property-title">Size properties</div>
                   <div className="property-varients-container">
-                    {properties.size.map((item) => {
+                    {properties.size.map((item, i) => {
                       return (
-                        <div className="size-property-varient-card">
+                        <div key={i} className="size-property-varient-card">
                           <div>{item.width} x {item.height}</div>
                           <div className="property-price">₹{item.price}</div>
                         </div>
@@ -115,9 +115,9 @@ const EditProduct = ({ params }) => {
               <div className="selected-category-property-box">
                 <div className="property-title">Frame Design properties</div>
                 <div className="property-varients-container">
-                  {properties.frame.map((item) => {
+                  {properties.frame.map((item,i) => {
                     return (
-                      <div className="frame-property-varient-card">
+                      <div key={i} className="frame-property-varient-card">
                         <div className="frame-design-img-container"><Image src={item.image} alt="frame design" /></div>
                         <div>{item.name}</div>
                       </div>
@@ -148,7 +148,7 @@ const EditProduct = ({ params }) => {
                     })}
                     {isUploading && 
                         <div className="uploaded-img-box-loader">
-                            <Image src="/assets/spinner.svg"/>
+                            <Image src="/assets/spinner.svg" alt="spinner"/>
                         </div>
                     }
                 </>
