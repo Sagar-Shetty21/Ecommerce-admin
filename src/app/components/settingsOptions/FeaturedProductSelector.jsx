@@ -24,17 +24,19 @@ const FeaturedProductSelector = () => {
     }
     
     return (
-        <div className="featured-product-selector-container" >
+        <div className="featured-product-selector-container">
             <h2>Select the featured product</h2>
-            <form onSubmit={updateFeaturedProduct}>
-                <select className="featured-product-selector" required value={featuredProductId} onChange={(e) => setFeaturedProductId(e.target.value)}>
-                    {featuredProductId == "" && <option value="">Choose a product</option>}
-                    {products.map(p => (
-                        <option className="featured-product-options" value={p._id}>{p.title}</option>
-                    ))}
-                </select>
-                <button type="submit">Save</button>
-            </form>
+            <div className="featured-product-selector-card" >
+                <form onSubmit={updateFeaturedProduct}>
+                    <select className="featured-product-selector" required value={featuredProductId} onChange={(e) => setFeaturedProductId(e.target.value)}>
+                        {featuredProductId == "" && <option value="">Choose a product</option>}
+                        {products.map(p => (
+                            <option className="featured-product-options" value={p._id}>{p.title}</option>
+                        ))}
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
         </div>
     )
 }

@@ -2,8 +2,17 @@ import NextAuth, { getServerSession } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import clientPromise from "../../../../../lib/mongodb";
+import { mongooseConnect } from "../../../../../lib/mongoose";
+import { Admins } from "../../../../../models/Admins";
 
-const adminEmails = ['5agarm5hetty05@gmail.com', 'sagarmshetty555@gmail.com']
+let adminEmails = []
+const getAdminEmails = async() => {
+  await mongooseConnect();
+  const admins = await Admins.find({}, 'gmail');
+  adminEmails = admins.map(admin => admin.gmail);
+}
+
+getAdminEmails();
 
 export const authOptions = {
   providers: [

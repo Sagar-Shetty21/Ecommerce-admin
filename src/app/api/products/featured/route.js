@@ -1,6 +1,5 @@
 
 import { NextResponse } from 'next/server'
-import {Product} from '../../../../../models/Product'
 import {mongooseConnect} from '../../../../../lib/mongoose'
 import { isAdminRequest } from '../../auth/[...nextauth]/route';
 import { FeaturedProduct } from '../../../../../models/FeaturedProduct';
