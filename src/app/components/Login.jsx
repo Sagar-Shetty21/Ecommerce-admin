@@ -4,6 +4,7 @@ import React from 'react'
 import { signIn } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 
 const Login = () => {
@@ -16,7 +17,7 @@ const Login = () => {
 
   return(
     <div className="login-page-container">
-      <img src="../assets/company-logo.svg" alt="company logo"/>
+      <Image src="../assets/company-logo.svg" alt="company logo"/>
       <button onClick={() => signIn("google")} className="google-signin-btn">LOG IN WITH GOOGLE</button>
     </div>
   )

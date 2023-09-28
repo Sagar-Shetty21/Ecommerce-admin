@@ -31,7 +31,7 @@ const FeaturedProductSelector = () => {
                     <select className="featured-product-selector" required value={featuredProductId} onChange={(e) => setFeaturedProductId(e.target.value)}>
                         {featuredProductId == "" && <option value="">Choose a product</option>}
                         {products.map(p => (
-                            <option className="featured-product-options" value={p._id}>{p.title}</option>
+                            <option key={p._id} className="featured-product-options" value={p._id}>{p.title}</option>
                         ))}
                     </select>
                     <button type="submit">Save</button>

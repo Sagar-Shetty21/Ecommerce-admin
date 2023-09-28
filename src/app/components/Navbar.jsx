@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 
 
 const Navbar = ({showNav, setShowNav}) => {
@@ -13,7 +14,7 @@ const Navbar = ({showNav, setShowNav}) => {
   return (
     <aside className={(showNav?"side-navbar":"hide-side-navbar")}>
       <div className="nav-items company-logo">
-        <img src="/assets/company-logo.svg" alt="company logo"/>
+        <Image src="/assets/company-logo.svg" alt="company logo"/>
       </div>
       <nav>
         <Link onClick={() => setShowNav(false)} href="/" className={`nav-items ${pathname === '/' ? 'active-nav-item' : ''}`}>

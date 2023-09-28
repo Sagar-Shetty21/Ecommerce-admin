@@ -1,6 +1,7 @@
 "use client"
 
 import { useSession } from 'next-auth/react'
+import Image from 'next/image';
 
 export default function Home() {
 
@@ -10,7 +11,7 @@ export default function Home() {
         <div className="dashboard-section">
           <h2>Hello, {session?.user?.name}!</h2>
           <div className="profile-info" >
-            <img src={session?.user?.image} alt="user image"/>
+            <Image src={session?.user?.image} alt="user image"/>
             {session?.user?.email}
           </div>
         </div>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image';
 
 const DeleteProduct = ({ params }) => {
   useSession({required: true});
@@ -65,7 +66,7 @@ const DeleteProduct = ({ params }) => {
             {imagesLink.map((img) => {
               return(
                 <div key={img} className="uploaded-img-box">
-                  <img src={img} alt="uploaded image"/>
+                  <Image src={img} alt="uploaded image"/>
                 </div>
               )
             })}

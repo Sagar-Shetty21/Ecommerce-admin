@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import Image from 'next/image';
 
 const FrameDesign = ({setInactive, setVarients, varients}) => {
 
@@ -48,7 +49,7 @@ const FrameDesign = ({setInactive, setVarients, varients}) => {
             <div className="varient-reference-img-upload-btn">
                 {isUploading && 
                     <div className="img-uploading-loader">
-                        <img src="/assets/spinner.svg"/>
+                        <Image src="/assets/spinner.svg"/>
                     </div>
                 }
                 {image == "" ? 
@@ -57,7 +58,7 @@ const FrameDesign = ({setInactive, setVarients, varients}) => {
                     </svg>
                 :   
                     <>
-                        <img src={image} alt="uploaded img" className="thumbnail"/>
+                        <Image src={image} alt="uploaded img" className="thumbnail"/>
                     </>
                 }
                 <input id="fileInput" type="file" required onChange={uploadImage} />
@@ -72,7 +73,7 @@ const FrameDesign = ({setInactive, setVarients, varients}) => {
             {varients.map((item, index) => {
                 return (
                     <div className="frame-varient-card" key={index}>
-                        <div className="image"><img src={item.image}/></div>
+                        <div className="image"><Image src={item.image}/></div>
                         <div className="name">{item.name}</div>
                         <div className="remove-varient-btn" onClick={() => deleteFrameVarient(index)}>Remove</div>
                     </div>
