@@ -4,7 +4,6 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client
 import {mongooseConnect} from '../../../../lib/mongoose'
 import { isAdminRequest } from '../auth/[...nextauth]/route';
 
-export const runtime = 'nodejs'
 
 export async function POST(request){
     await mongooseConnect();
@@ -51,9 +50,9 @@ export async function POST(request){
       }
 }
 
-export const config = {
+/* export const config = {
     api: {bodyParser: false},
-}
+} */
 
 export async function DELETE(request){
     await mongooseConnect();
