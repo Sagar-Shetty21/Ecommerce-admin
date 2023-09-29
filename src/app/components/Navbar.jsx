@@ -14,7 +14,7 @@ const Navbar = ({showNav, setShowNav}) => {
   return (
     <aside className={(showNav?"side-navbar":"hide-side-navbar")}>
       <div className="nav-items company-logo">
-        <Image src="/assets/company-logo.svg" alt="company logo"/>
+        <Image src="/assets/company-logo.svg" alt="company logo" width="100" height="100" className="side-nav-logo"/>
       </div>
       <nav>
         <Link onClick={() => setShowNav(false)} href="/" className={`nav-items ${pathname === '/' ? 'active-nav-item' : ''}`}>

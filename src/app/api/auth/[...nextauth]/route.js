@@ -33,7 +33,8 @@ export const authOptions = {
         return false;
       }
     }
-  }
+  },
+  secret: process.env.SECRET
 }
 
 const handler = NextAuth(authOptions);
