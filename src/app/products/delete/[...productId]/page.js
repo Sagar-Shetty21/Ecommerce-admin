@@ -66,7 +66,7 @@ const DeleteProduct = ({ params }) => {
             {imagesLink.map((img) => {
               return(
                 <div key={img} className="uploaded-img-box">
-                  <Image src={img} alt="uploaded image"/>
+                  <Image src={img} alt="uploaded image" height="100" width="100" className="uploadedImage"/>
                 </div>
               )
             })}

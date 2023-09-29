@@ -8,6 +8,12 @@ const nextConfig = {
                 port: '',
                 pathname: '/a/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'svr-color-lab.s3.amazonaws.com',
+                port: '',
+                pathname: '/**',
+            },
         ],
     },
 }

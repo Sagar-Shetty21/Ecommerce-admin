@@ -13,7 +13,7 @@ const Topbar = ({setShowNav, showNav}) => {
                 <path fill-rule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
             </svg>
         }
-        <Image src="/assets/company-logo.svg" alt="company logo" width="100" height="100"/>
+        <Image src="/assets/company-logo.svg" alt="company logo" width="100" height="100" className="top-nav-logo"/>
     </div>
   )
 }
