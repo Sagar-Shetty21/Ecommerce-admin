@@ -310,6 +310,12 @@ a {
   resize: none;
 }
 
+.new-product-form-container input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+
 .new-product-form-container select{
   font-size: 16px;
   padding: 6px;
@@ -948,7 +954,7 @@ a {
   height: 90px;
 }
 
-.frame-design-img-container Image{
+.frame-design-img-container .frame-design-image{
   height: 100%;
   object-fit: cover;
 }

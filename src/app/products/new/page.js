@@ -14,6 +14,8 @@ const NewProduct = () => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
+  const [isFileRequired, setIsFileRequired] = useState(false)
+  const [isCustomerInputRequired, setIsCustomerInputRequired] = useState(false)
   const [imagesLink, setImagesLink] = useState([]);
   const [category, setCategory] = useState("")
   const [isUploading, setIsUploading] = useState(false);
@@ -28,7 +30,7 @@ const NewProduct = () => {
   },[])
 
   const CreateProduct = async() => {
-    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category, properties}
+    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category, properties, isFileRequired, isCustomerInputRequired}
     const res = await axios.post('/api/products', data);
     if (res.status === 200) {
         await router.push('/products');
@@ -118,7 +120,7 @@ const NewProduct = () => {
                     {properties.frame.map((item, i) => {
                       return (
                         <div key={i} className="frame-property-varient-card">
-                          <div className="frame-design-img-container"><Image src={item.image} alt="frame design" /></div>
+                          <div className="frame-design-img-container"><Image src={item.image} alt="frame design" height="100" width="100" className="frame-design-image"/></div>
                           <div>{item.name}</div>
                         </div>
                       )
@@ -198,8 +200,14 @@ const NewProduct = () => {
         <label>Description</label>
         <textarea type="text" placeholder="Product Description" value={desc} onChange={(e) => setDesc(e.target.value)} />
 
+        <input type="checkbox" id="fileCheckBox" checked={isFileRequired} onChange={() => setIsFileRequired(!isFileRequired)} />
+        <label className="checkbox-label" for="fileCheckBox">Should this product accept files?</label><br/><br/>
+        
+        <input type="checkbox" id="inputCheckBox" checked={isCustomerInputRequired} onChange={() => setIsCustomerInputRequired(!isCustomerInputRequired)} />
+        <label className="checkbox-label" for="inputCheckBox">Should this product require customers input for customization?</label><br/><br/>
+
         <label>Base price</label>
-        <input type="number" placeholder="Product Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+        <input type="number" placeholder="Products Minimum Price" value={price} onChange={(e) => setPrice(e.target.value)} />
 
         <button onClick={CreateProduct} className="create-product-btn">Save</button>
     </div>

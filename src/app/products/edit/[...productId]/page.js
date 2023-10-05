@@ -18,14 +18,19 @@ const EditProduct = ({ params }) => {
   const [categories, setCategories] = useState([])
   const [imagesLink, setImagesLink] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [isFileRequired, setIsFileRequired] = useState(false)
+  const [isCustomerInputRequired, setIsCustomerInputRequired] = useState(false)
 
   useEffect(() => {
     axios.get('/api/products?id='+productId).then(response => {
+      console.log(response.data)
         setName(response.data.title);
         setDesc(response.data.description);
         setPrice(response.data.price);
         setImagesLink(response.data.images);
         setCategory(response.data.category);
+        setIsFileRequired(response.data.isFileRequired)
+        setIsCustomerInputRequired(response.data.isCustomerInputRequired)
     })
     axios.get('/api/categories').then(response => {
       setCategories(response.data)
@@ -35,7 +40,8 @@ const EditProduct = ({ params }) => {
   const router = useRouter();
 
   const EditProduct = async() => {
-    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category, properties}
+    const data = {name, desc, price, images: imagesLink, category: category === '' ? null : category, properties, isFileRequired, isCustomerInputRequired}
+    console.log(data)
     const res = await axios.put('/api/products', {...data, productId});
     if (res.status === 200) {
         await router.push('/products');
@@ -68,15 +74,19 @@ const EditProduct = ({ params }) => {
     setImagesLink(images);
   }
 
-  const properties = {size:[], frame:[]}
+  const properties = {dimensions:[], frame:[], size:[], color:[]}
   if (categories.length > 0 && category) {
     let selectedCategoryInfo = categories.find(({_id}) => _id === category );
-    properties.size.push(...selectedCategoryInfo.properties?.size || [])
+    properties.dimensions.push(...selectedCategoryInfo.properties?.dimensions || [])
     properties.frame.push(...selectedCategoryInfo.properties?.frame || [])
+    properties.size.push(...selectedCategoryInfo.properties?.size || [])
+    properties.color.push(...selectedCategoryInfo.properties?.color || [])
     while(selectedCategoryInfo?.parent?._id){
       const parentCategoryInfo = categories.find(({_id}) => _id === selectedCategoryInfo?.parent?._id );
-      properties.size.push(...parentCategoryInfo.properties?.size || [])
+      properties.dimensions.push(...parentCategoryInfo.properties?.dimensions || [])
       properties.frame.push(...parentCategoryInfo.properties?.frame || [])
+      properties.size.push(...parentCategoryInfo.properties?.size || [])
+      properties.color.push(...parentCategoryInfo.properties?.color || [])
       selectedCategoryInfo = parentCategoryInfo;
     }
   }
@@ -97,12 +107,13 @@ const EditProduct = ({ params }) => {
         </select>
 
         {category ? (
-          properties.size.length > 0 && properties.frame.length > 0 ? (
+          properties.dimensions.length > 0 || properties.frame.length > 0 || properties.size.length > 0 || properties.color.length > 0 ? (
             <div className="selected-category-properties-container">
-              <div className="selected-category-property-box">
-                <div className="property-title">Size properties</div>
+              {properties.dimensions.length > 0 &&
+                <div className="selected-category-property-box">
+                  <div className="property-title">Dimension properties</div>
                   <div className="property-varients-container">
-                    {properties.size.map((item, i) => {
+                    {properties.dimensions.map((item, i) => {
                       return (
                         <div key={i} className="size-property-varient-card">
                           <div>{item.width} x {item.height}</div>
@@ -111,21 +122,53 @@ const EditProduct = ({ params }) => {
                       ) 
                     })}
                   </div>
-              </div>
-              <div className="selected-category-property-box">
-                <div className="property-title">Frame Design properties</div>
-                <div className="property-varients-container">
-                  {properties.frame.map((item,i) => {
-                    return (
-                      <div key={i} className="frame-property-varient-card">
-                        <div className="frame-design-img-container"><Image src={item.image} alt="frame design" /></div>
-                        <div>{item.name}</div>
-                      </div>
-                    )
-                  })}
                 </div>
-              </div>
-              
+              }
+              {properties.frame.length > 0 && 
+                <div className="selected-category-property-box">
+                  <div className="property-title">Frame Design properties</div>
+                  <div className="property-varients-container">
+                    {properties.frame.map((item, i) => {
+                      return (
+                        <div key={i} className="frame-property-varient-card">
+                          <div className="frame-design-img-container"><Image src={item.image} alt="frame design" height="100" width="100" className="frame-design-image"/></div>
+                          <div>{item.name}</div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              }
+              {properties.size.length > 0 && 
+                <div className="selected-category-property-box">
+                  <div className="property-title">Size properties</div>
+                  <div className="property-varients-container">
+                    {properties.size.map((item, i) => {
+                      return (
+                        <div key={i} className="size-property-varient-card">
+                          <div>{item.sizeInfo}</div>
+                          <div className="property-price">₹{item.price}</div>
+                        </div>
+                      ) 
+                    })}
+                  </div>
+                </div>
+              }
+              {properties.color.length > 0 && 
+                <div className="selected-category-property-box">
+                  <div className="property-title">Frame Design properties</div>
+                  <div className="property-varients-container">
+                    {properties.color.map((item, i) => {
+                      return (
+                        <div key={i} className="color-property-varient-card">
+                          <div className="color-demo-container" style={{backgroundColor: `${item.color}`}}></div>
+                          <div>{item.name}</div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              }
             </div>
           ) : (
             <div className="empty-properties-container-msg">No properties in the selected category</div>
@@ -167,6 +210,12 @@ const EditProduct = ({ params }) => {
 
         <label>Description</label>
         <textarea type="text" placeholder="Product Description" value={desc} onChange={(e) => setDesc(e.target.value)} />
+
+        <input type="checkbox" id="fileCheckBox" checked={isFileRequired} onChange={() => setIsFileRequired(!isFileRequired)} />
+        <label className="checkbox-label" for="fileCheckBox">Should this product accept files?</label><br/><br/>
+        
+        <input type="checkbox" id="inputCheckBox" checked={isCustomerInputRequired} onChange={() => setIsCustomerInputRequired(!isCustomerInputRequired)} />
+        <label className="checkbox-label" for="inputCheckBox">Should this product require customers input for customization?</label><br/><br/>
 
         <label>Base price</label>
         <input type="number" placeholder="Product Price" value={price} onChange={(e) => setPrice(e.target.value)} />

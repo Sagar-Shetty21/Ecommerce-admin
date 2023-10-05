@@ -7,9 +7,9 @@ import { isAdminRequest } from '../auth/[...nextauth]/route';
 export async function POST(request) {
     await mongooseConnect();
     await isAdminRequest();
-    const {name, desc, price, images, category, properties} = await request.json()
+    const {name, desc, price, images, category, properties, isFileRequired, isCustomerInputRequired} = await request.json()
     const productDoc = await Product.create({
-        title: name, description: desc, price: price, images: images, category, properties
+        title: name, description: desc, price: price, images: images, category, properties, isFileRequired, isCustomerInputRequired
     })
     return NextResponse.json(productDoc)
 }
@@ -27,9 +27,9 @@ export async function GET(request) {
 export async function PUT(request) {
     await mongooseConnect();
     await isAdminRequest();
-    const {name, desc, price, productId, images, category, properties} = await request.json()
+    const {name, desc, price, productId, images, category, properties, isFileRequired, isCustomerInputRequired} = await request.json()
     const productDoc = await Product.updateOne({_id: productId},{
-        title: name, description: desc, price: price, images: images, category, properties
+        title: name, description: desc, price: price, images: images, category, properties, isFileRequired, isCustomerInputRequired
     })
     return NextResponse.json(productDoc)
 }

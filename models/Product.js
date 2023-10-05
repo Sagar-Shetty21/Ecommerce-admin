@@ -6,7 +6,9 @@ const ProductSchema = new Schema({
     price: {type: Number, required: true},
     images: {type: [String]},
     category: {type: mongoose.Types.ObjectId, ref: 'Category'},
-    properties: {type: Object}
+    properties: {type: Object},
+    isFileRequired: {type: Boolean},
+    isCustomerInputRequired: {type: Boolean}
 }, {
     timestamps: true
 });
