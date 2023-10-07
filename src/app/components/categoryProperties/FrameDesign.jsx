@@ -49,7 +49,7 @@ const FrameDesign = ({setInactive, setVarients, varients}) => {
             <div className="varient-reference-img-upload-btn">
                 {isUploading && 
                     <div className="img-uploading-loader">
-                        <Image src="/assets/spinner.svg"/>
+                        <Image className="image" src="/assets/spinner.svg" width="100" height="100"/>
                     </div>
                 }
                 {image == "" ? 
@@ -58,7 +58,7 @@ const FrameDesign = ({setInactive, setVarients, varients}) => {
                     </svg>
                 :   
                     <>
-                        <Image src={image} alt="uploaded img" className="thumbnail"/>
+                        <Image src={image} alt="uploaded img" className="thumbnail" width="100" height="100"/>
                     </>
                 }
                 <input id="fileInput" type="file" required onChange={uploadImage} />
@@ -73,7 +73,7 @@ const FrameDesign = ({setInactive, setVarients, varients}) => {
             {varients.map((item, index) => {
                 return (
                     <div className="frame-varient-card" key={index}>
-                        <div className="image"><Image src={item.image}/></div>
+                        <div className="image"><Image className="image" src={item.image} width="100" height="100"/></div>
                         <div className="name">{item.name}</div>
                         <div className="remove-varient-btn" onClick={() => deleteFrameVarient(index)}>Remove</div>
                     </div>

@@ -53,10 +53,10 @@ const Admins = () => {
       <div>
         <table>
           <thead>
-            <tr>
-              <th className="full-width-column">Admin google email</th>
+            {/* <tr>
+              <th className="full-width-column"></th>
               <th></th>
-            </tr>
+            </tr> */}
           </thead>
           <tbody>
             {allAdmins.map(a => (

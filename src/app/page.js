@@ -12,7 +12,7 @@ export default function Home() {
           <h2>Hello, {session?.user?.name}!</h2>
           <div className="profile-info" >
             <Image src={session?.user?.image} alt="user image" height="20" width="20" style={{ height: '28px',width: '28px', borderRadius: '20px', marginRight: '4px'}}/>
-            {session?.user?.email}
+            <div>{session?.user?.email}</div>
           </div>
         </div>
     )
