@@ -1303,4 +1303,8 @@ a {
     padding: 4px 8px;
     margin: 4px;
   }
+  .dashboard-section h2{
+    font-size: 18px;
+    padding: 8px;
+  }
 }
